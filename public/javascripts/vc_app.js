@@ -44,12 +44,12 @@ function enablePassingAndShooting(raphObj){
   };
 }
 
-function trackMovement(raphObj, defObj){
+function trackMovement(paper, raphObj, defObj){
   //This process was greatly helped by these StackOverflow posts:
   //http://stackoverflow.com/questions/4224359/making-paths-and-images-dragable-in-raphael-js
   //http://stackoverflow.com/questions/3675519/raphaeljs-drag-n-drop
 
-  var that, start, move, up;
+  var that, start, move, up, dragArray, vcrumbs;
   that = this;
 
   start = function() {
@@ -57,6 +57,7 @@ function trackMovement(raphObj, defObj){
     var strok_color = (defObj.hasBall) ? defObj.colorWithBallStrokeAlt : defObj.colorWithoutBallStrokeAlt;
     this.ox = this.attr('cx');
     this.oy = this.attr('cy');
+
     this.attr({
       fill: fill_color,
       stoke: strok_color
@@ -64,13 +65,17 @@ function trackMovement(raphObj, defObj){
 
     raphObj[1].ox = this.attr('x');
     raphObj[1].oy = this.attr('y');
+
+    console.log(this);
+    
+    dragArray = [{x:this.ox, y:this.oy}];
+    vcrumbs = paper.set(); 
+    console.log(dragArray.length);
     return null;
   };
 
   move = function(dx, dy) {
     //Here we grab the delta between our drag actions
-    console.log("DX: " + dx);
-    console.log("DY: " + dy);
     this.attr({
       cx: this.ox + dx,
       cy: this.oy + dy
@@ -79,6 +84,25 @@ function trackMovement(raphObj, defObj){
       x: this.ox + dx,
       y: this.oy + dy
     });
+
+    console.log("DX: " + dx);
+    console.log("DY: " + dy);
+
+    dragArray.push({x:this.attr('cx'), y:this.attr('cy')});
+
+    var svgpath = "M".concat(
+                      dragArray[dragArray.length-2].x, 
+                      " ",
+                      dragArray[dragArray.length-2].y, 
+                      " L ",
+                      dragArray[dragArray.length-1].x, 
+                      " ",
+                      dragArray[dragArray.length-1].y 
+                      ); 
+
+    vcrumbs.push( paper.path(svgpath).attr({stroke:"#F00", "stroke-linecap":"butt", "stroke-width": 3}) );
+
+    console.log(dragArray.length);
     return null;
   };
 
@@ -91,6 +115,8 @@ function trackMovement(raphObj, defObj){
       fill: fill_color,
       stoke: strok_color
     });
+
+    console.log("DONE!");
     return null;
   };
 
@@ -125,5 +151,5 @@ $(function(){
   console.log('works');
 
   circ = generateRaphaelObject(paper, defaultObj);
-  trackMovement(circ, defaultObj);
+  trackMovement(paper, circ, defaultObj);
 });
