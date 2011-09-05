@@ -68,8 +68,8 @@ function trackMovement(paper, raphObj, defObj){
     console.log(raphObj);
 
     raphObj.items.forEach(function(itm,idx,arr){
-      itm.ox = (inner_that.type === "circle" ) ? inner_that.attr('cx') : inner_that.attr('x');
-      itm.oy = (inner_that.type === "circle" ) ? inner_that.attr('cy') : inner_that.attr('y');
+      itm.ox = ( inner_that.type === "circle" ) ? inner_that.attr('cx') : inner_that.attr('x');
+      itm.oy = ( inner_that.type === "circle" ) ? inner_that.attr('cy') : inner_that.attr('y');
     });
 
     switch(this.type){
@@ -92,7 +92,6 @@ function trackMovement(paper, raphObj, defObj){
     var svgpath, inner_that;
     inner_that = this;
     console.log("WE'RE IN THE MOVE FUNCTION NOW");
-    console.log(this);
     
     raphObj.items.forEach(function(itm,idx,arr){
       switch(itm.type){
@@ -121,18 +120,18 @@ function trackMovement(paper, raphObj, defObj){
       dragArray.push({x:this.attr('x'), y:this.attr('y')});
     }
 
-    /*svgpath = "M".concat(*/
-    /*dragArray[dragArray.length-2].x, */
-    /*" ",*/
-    /*dragArray[dragArray.length-2].y, */
-    /*" L ",*/
-    /*dragArray[dragArray.length-1].x, */
-    /*" ",*/
-    /*dragArray[dragArray.length-1].y */
-    /*); */
+    svgpath = "M".concat(
+      dragArray[dragArray.length-2].x, 
+      " ",
+      dragArray[dragArray.length-2].y, 
+      " L ",
+      dragArray[dragArray.length-1].x, 
+      " ",
+      dragArray[dragArray.length-1].y 
+    ); 
 
-    /*vcrumbs.push( paper.path(svgpath).attr({stroke:"#F00", "stroke-linecap":"butt", "stroke-width": 3}) );*/
-
+    vcrumbs.push( paper.path(svgpath).attr({stroke:"#F00", "stroke-linecap":"butt", "stroke-width": 3}) );
+    vcrumbs.toBack();
     console.log(dragArray.length);
     return null;
   };
@@ -150,8 +149,6 @@ function trackMovement(paper, raphObj, defObj){
     /*});*/
     /*});*/
 
-    console.log("DONE!");
-    console.log(this);
     console.log("DONE!");
     return null;
   };
