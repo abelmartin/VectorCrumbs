@@ -49,24 +49,37 @@ function trackMovement(paper, raphObj, defObj){
   //http://stackoverflow.com/questions/4224359/making-paths-and-images-dragable-in-raphael-js
   //http://stackoverflow.com/questions/3675519/raphaeljs-drag-n-drop
 
+  //It's crucial to remember the following:
+  //  raphObj[0] = cicrle
+  //  raphObj[1] = text
   var that, start, move, up, dragArray, vcrumbs;
   that = this;
 
   start = function() {
-    var fill_color = (defObj.hasBall) ? defObj.colorWithBallCircleAlt : defObj.colorWithoutBallCircleAlt;
-    var strok_color = (defObj.hasBall) ? defObj.colorWithBallStrokeAlt : defObj.colorWithoutBallStrokeAlt;
-    this.ox = this.attr('cx');
-    this.oy = this.attr('cy');
+    var inner_that = this;
+    /*var fill_color = (defObj.hasBall) ? defObj.colorWithBallCircleAlt : defObj.colorWithoutBallCircleAlt;*/
+    /*var strok_color = (defObj.hasBall) ? defObj.colorWithBallStrokeAlt : defObj.colorWithoutBallStrokeAlt;*/
 
-    this.attr({
-      fill: fill_color,
-      stoke: strok_color
+    /*this.attr({*/
+    /*fill: fill_color,*/
+    /*stoke: strok_color*/
+    /*});*/
+
+    console.log(raphObj);
+
+    raphObj.items.forEach(function(itm,idx,arr){
+      itm.ox = (inner_that.type === "circle" ) ? inner_that.attr('cx') : inner_that.attr('x');
+      itm.oy = (inner_that.type === "circle" ) ? inner_that.attr('cy') : inner_that.attr('y');
     });
 
-    raphObj[1].ox = this.attr('x');
-    raphObj[1].oy = this.attr('y');
-
-    console.log(this);
+    switch(this.type){
+      case "circle":
+        console.log("Grabbed the CIRCLE, the companion is TEXT");
+      break;
+      case "text":
+        console.log("Grabbed the TEXT, the companion is CIRCLE");
+      break;
+    }
     
     dragArray = [{x:this.ox, y:this.oy}];
     vcrumbs = paper.set(); 
@@ -76,31 +89,49 @@ function trackMovement(paper, raphObj, defObj){
 
   move = function(dx, dy) {
     //Here we grab the delta between our drag actions
-    this.attr({
-      cx: this.ox + dx,
-      cy: this.oy + dy
-    });
-    raphObj[1].attr({
-      x: this.ox + dx,
-      y: this.oy + dy
+    var svgpath, inner_that;
+    inner_that = this;
+    console.log("WE'RE IN THE MOVE FUNCTION NOW");
+    console.log(this);
+    
+    raphObj.items.forEach(function(itm,idx,arr){
+      switch(itm.type){
+        case "circle":
+          itm.attr({
+            cx: inner_that.ox + dx,
+            cy: inner_that.oy + dy
+          });
+        break;
+        case "text":
+          itm.attr({
+            x: inner_that.ox + dx,
+            y: inner_that.oy + dy
+          });
+        break;
+      }
     });
 
     console.log("DX: " + dx);
     console.log("DY: " + dy);
 
-    dragArray.push({x:this.attr('cx'), y:this.attr('cy')});
+    if(this.type === "circle"){
+      dragArray.push({x:this.attr('cx'), y:this.attr('cy')});
+    }
+    else{
+      dragArray.push({x:this.attr('x'), y:this.attr('y')});
+    }
 
-    var svgpath = "M".concat(
-                      dragArray[dragArray.length-2].x, 
-                      " ",
-                      dragArray[dragArray.length-2].y, 
-                      " L ",
-                      dragArray[dragArray.length-1].x, 
-                      " ",
-                      dragArray[dragArray.length-1].y 
-                      ); 
+    /*svgpath = "M".concat(*/
+    /*dragArray[dragArray.length-2].x, */
+    /*" ",*/
+    /*dragArray[dragArray.length-2].y, */
+    /*" L ",*/
+    /*dragArray[dragArray.length-1].x, */
+    /*" ",*/
+    /*dragArray[dragArray.length-1].y */
+    /*); */
 
-    vcrumbs.push( paper.path(svgpath).attr({stroke:"#F00", "stroke-linecap":"butt", "stroke-width": 3}) );
+    /*vcrumbs.push( paper.path(svgpath).attr({stroke:"#F00", "stroke-linecap":"butt", "stroke-width": 3}) );*/
 
     console.log(dragArray.length);
     return null;
@@ -108,14 +139,19 @@ function trackMovement(paper, raphObj, defObj){
 
   up = function() {
     //Return the colors to their rightful states
-    var fill_color = (defObj.hasBall) ? defObj.colorWithBallCircle : defObj.colorWithoutBallCircle;
-    var strok_color = (defObj.hasBall) ? defObj.colorWithBallStroke : defObj.colorWithoutBallStroke;
+    var inner_that = this;
+    /*var fill_color = (defObj.hasBall) ? defObj.colorWithBallCircle : defObj.colorWithoutBallCircle;*/
+    /*var strok_color = (defObj.hasBall) ? defObj.colorWithBallStroke : defObj.colorWithoutBallStroke;*/
 
-    this.attr({
-      fill: fill_color,
-      stoke: strok_color
-    });
+    /*raphObj.items.forEach(function(itm,idx,arr){*/
+    /*itm.attr({*/
+    /*fill: fill_color,*/
+    /*stoke: strok_color*/
+    /*});*/
+    /*});*/
 
+    console.log("DONE!");
+    console.log(this);
     console.log("DONE!");
     return null;
   };
@@ -125,8 +161,8 @@ function trackMovement(paper, raphObj, defObj){
   raphObj.drag(move, start, up);
 }
 
-$(function(){
-  var paper, defaultObj, circ;
+(function(){
+  var paper, defaultObj;
 
   paper = Raphael('Stage', '100%', '100%');
 
@@ -150,6 +186,6 @@ $(function(){
 
   console.log('works');
 
-  circ = generateRaphaelObject(paper, defaultObj);
+  window.circ = generateRaphaelObject(paper, defaultObj);
   trackMovement(paper, circ, defaultObj);
-});
+}());
