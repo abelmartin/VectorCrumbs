@@ -1,10 +1,10 @@
-Raphael.el.vectorcrumbs = function(options){
+Raphael.st.vectorCrumbs = function(options){
   //This process was greatly helped by these StackOverflow posts:
   //http://stackoverflow.com/questions/4224359/making-paths-and-images-dragable-in-raphael-js
   //http://stackoverflow.com/questions/3675519/raphaeljs-drag-n-drop
   var that, startmovement, moving, stopmovement, dragArray, vcrumbs, raphObj;
   raphObj = this;
-  paper = this.paper;
+  paper = this[0].paper;
 
   startmovent = function() {
     var inner_that = this;
