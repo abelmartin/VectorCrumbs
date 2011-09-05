@@ -1,5 +1,5 @@
 (function(){
-  vectorCrumbs = function(passedRaphObj, passedOptions) {
+  function vectorCrumbs(passedRaphObj, passedOptions) {
     //This process was greatly helped by these StackOverflow posts:
     //http://stackoverflow.com/questions/4224359/making-paths-and-images-dragable-in-raphael-js
     //http://stackoverflow.com/questions/3675519/raphaeljs-drag-n-drop
@@ -7,7 +7,7 @@
     raphObj = passedRaphObj;
     paper = (raphObj.type === "set") ? raphObj[0].paper : raphObj.paper;
 
-    startmovent = function() {
+    startmovent = function(){
       var inner_that = this;
       /*var fill_color = (defObj.hasBall) ? defObj.colorWithBallCircleAlt : defObj.colorWithoutBallCircleAlt;*/
       /*var strok_color = (defObj.hasBall) ? defObj.colorWithBallStrokeAlt : defObj.colorWithoutBallStrokeAlt;*/
@@ -38,7 +38,7 @@
       return null;
     };
 
-    moving = function(dx, dy) {
+    moving = function(dx, dy){
       //Here we grab the delta between our drag actions
       var svgpath, inner_that;
       inner_that = this;
@@ -87,7 +87,7 @@
       return null;
     };
 
-    stopmovement = function() {
+    stopmovement = function(){
       //Return the colors to their rightful states
       var inner_that = this;
       /*var fill_color = (defObj.hasBall) ? defObj.colorWithBallCircle : defObj.colorWithoutBallCircle;*/
