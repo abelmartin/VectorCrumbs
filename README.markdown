@@ -8,6 +8,9 @@ While I love Raphael's drag & drop, I don't like having to write the same boiler
 
 I also wanted something that triggered events as the dragging occured.
 
+## Current Hacks & Admissions  
+At the moment, I'm wrapping my plugin around the standard Raphael.drag() method.  In the future, I'll need to roll my own drag method, but for now, this works :)
+
 ## Here's a tentative roadmap ##
 * 1.2: add variable width 
 * 1.3: post drag smoothing
