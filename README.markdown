@@ -52,6 +52,15 @@ mySet.vectorcrumbs({
 });
 ```
 
+Vector Crumbs is also a good 'JavaScript citizen'.  It returns the object it's bound to so you can chain off it if you want
+
+```javascript
+
+mySet.vectorcrumbs().dblclick(function(event){
+  ...
+});
+```
+
 ## Current Hacks & Admissions  
 At the moment, I'm wrapping my plugin around the standard Raphael.drag() method.  In the future, I'll need to roll my own drag method, but for now, this works :)
 
