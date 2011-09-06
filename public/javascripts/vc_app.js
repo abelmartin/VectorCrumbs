@@ -14,7 +14,7 @@ function generateRaphaelObject(paper, defObj){
     paper.text(
       defObj.locX, 
       defObj.locY, 
-      defObj.id
+      "@"
     ).attr({
       fill: defObj.colorText,
       'font-size': defObj.fontSize,
