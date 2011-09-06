@@ -6,3 +6,20 @@ body {
 a {
   color: #00B7FF;
 }
+
+#Footer{
+  margin: 10px;
+  text-align: center;
+}
+
+#Signature{
+  border-top: 1px solid #000;
+  margin: 10px 50px 0px 50px;
+  padding-top: 10px;
+}
+
+#Stage{
+  border:2px solid black; 
+  height: 300px;
+  margin:10px; 
+}
