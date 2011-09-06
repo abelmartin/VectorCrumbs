@@ -16,7 +16,6 @@ Add the plugin script **after** you add the Raphael.js
 
 <script src="/javascripts/raphael-min.js"></script>
 <script src="/javascripts/vectorcrumbs.js"></script>
-
 ```
 
 You can use Vector Crumbs on like this: 
@@ -39,7 +38,6 @@ mySet.push(
 mySet.vectorcrumbs();
 
 // THAT'S IT! :)
-
 ```
 
 If can also pass in a param object with the following attributes:
@@ -52,7 +50,6 @@ mySet.vectorcrumbs({
   "stroke-width": 2, // Any interger wll do.  Defaults to 2
   "crumbs": true // You can disable the crumbs if you only want to drag an object.  Defaults to true
 });
-
 ```
 
 ## Current Hacks & Admissions  
