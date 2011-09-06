@@ -12,8 +12,8 @@ I also wanted something that triggered events as the dragging occured.
 At the moment, I'm wrapping my plugin around the standard Raphael.drag() method.  In the future, I'll need to roll my own drag method, but for now, this works :)
 
 ## Here's a tentative roadmap ##
-* 1.2: add variable width 
-* 1.3: post drag smoothing
-* 1.4: add solid/dashed crumb type
-* 1.5: add ability to crumb static Raphael objects insted of simple dashes
-* 1.6: add Raphael objects that have animations
+* add variable width 
+* post drag smoothing
+* add solid/dashed crumb type
+* add ability to crumb static Raphael objects insted of simple dashes
+* add Raphael objects that have animations
