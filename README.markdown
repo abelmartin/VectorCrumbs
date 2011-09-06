@@ -9,6 +9,16 @@ While I love Raphael's drag & drop, I don't like having to write the same boiler
 I also wanted something that triggered events as the dragging occured.
 
 ## Usage  
+
+Add the plugin script **after** you add the Raphael.js
+
+```html
+
+<script src="/javascripts/raphael-min.js"></script>
+<script src="/javascripts/vectorcrumbs.js"></script>
+
+```
+
 You can use Vector Crumbs on like this: 
 
 ```javascript
