@@ -9,14 +9,10 @@ While I love Raphael's drag & drop, I don't like having to write the same boiler
 I also wanted something that triggered events as the dragging occured.
 
 ## Usage  
-Simply add the pluggin after you add Raphael js.  
-```html
-<script src="/javascripts/raphael-min.js"></script>
-<script src="/javascripts/vectorcrumbs.js"></script>
-```
+You can use Vector Crumbs on like this: 
 
-...then you can use Vector Crumbs on like this:  
 ```javascript
+
 // Create your standard Raphael drawing space
 paper = Raphael(0, 0, 300, 300);
 
@@ -33,16 +29,20 @@ mySet.push(
 mySet.vectorcrumbs();
 
 // THAT'S IT! :)
+
 ```
 
 If can also pass in a param object with the following attributes:
+
 ```javascript
+
 mySet.vectorcrumbs({
   stroke: '#F00',  // Defaults to '#F00', but you can use any color you want
   "stoke-linecap": 'butt',  // You can use “butt”, “square”, or “round”
   "stroke-width": 2, // Any interger wll do.  Defaults to 2
   "crumbs": true // You can disable the crumbs if you only want to drag an object.  Defaults to true
 });
+
 ```
 
 ## Current Hacks & Admissions  
