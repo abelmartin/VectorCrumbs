@@ -3,9 +3,17 @@
     //This process was greatly helped by these StackOverflow posts:
     //http://stackoverflow.com/questions/4224359/making-paths-and-images-dragable-in-raphael-js
     //http://stackoverflow.com/questions/3675519/raphaeljs-drag-n-drop
-    var that, startmovement, moving, stopmovement, dragArray, vcrumbs, raphObj, paper;
+    var that, startmovement, moving, stopmovement, dragArray, vcrumbs, raphObj, paper, vc_attrs;
     raphObj = passedRaphObj;
+    vc_attrs = {};
     paper = (raphObj.type === "set") ? raphObj[0].paper : raphObj.paper;
+
+    if(passedOptions){
+      vc_attrs.stroke = passedOptions.stroke || "#F00";
+      vc_attrs["stoke-linecap"] = passedOptions["stoke-linecap"] || "butt";
+      vc_attrs["stroke-width"] = passedOptions["stroke-width"] || 2;
+      vc_attrs.crumbs = passedOptions.crumbs || true;
+    }
 
     startmovent = function(){
       var inner_that = this;
@@ -71,18 +79,20 @@
         dragArray.push({x:this.attr('x'), y:this.attr('y')});
       }
 
-      svgpath = "M".concat(
-        dragArray[dragArray.length-2].x, 
-        " ",
-        dragArray[dragArray.length-2].y, 
-        " L ",
-        dragArray[dragArray.length-1].x, 
-        " ",
-        dragArray[dragArray.length-1].y 
-      ); 
+      if(passedOptions && passedOptions.crumbs){
+        svgpath = "M".concat(
+          dragArray[dragArray.length-2].x, 
+          " ",
+          dragArray[dragArray.length-2].y, 
+          " L ",
+          dragArray[dragArray.length-1].x, 
+          " ",
+          dragArray[dragArray.length-1].y 
+        ); 
 
-      vcrumbs.push( paper.path(svgpath).attr({stroke:"#F00", "stroke-linecap":"butt", "stroke-width": 3}) );
-      vcrumbs.toBack();
+        vcrumbs.push( paper.path(svgpath).attr( vc_attrs ) );
+        vcrumbs.toBack();
+      }
       console.log(dragArray.length);
       return null;
     };

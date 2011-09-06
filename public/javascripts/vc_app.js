@@ -70,5 +70,5 @@ function enablePassingAndShooting(raphObj){
   console.log('works');
 
   window.circ = generateRaphaelObject(paper, defaultObj);
-  circ.vectorCrumbs();
+  circ.vectorCrumbs({'stroke-width':3, stroke:"green", crumbs:true});
 }());
