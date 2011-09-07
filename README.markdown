@@ -69,8 +69,6 @@ Though vectorcrumbs are bound to both Sets and Elements,  VC only works with set
 
 This has NOT been tested across multiple browsers yet
 
-There's a TON of console.log() statements peppered through the code.  
-
 I believe (though I haven't tested this yet) if you have multiple items in a set, this will center them all as you drag the items
 
 ## Here's a tentative roadmap ##
