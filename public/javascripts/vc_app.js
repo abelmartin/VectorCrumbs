@@ -31,14 +31,14 @@ function enablePassingAndShooting(raphObj){
   
   var circleNode = raphObj[0].node;
   circleNode.ondblclick = function(){
-    console.log("You DOUBLE CLICKED on the player CIRCLE");
+    /*console.log("You DOUBLE CLICKED on the player CIRCLE");*/
     raphObj[0].attr({fill: 'orange'});
     that.set({hasBall: true});
   };
   
   var textNode = raphObj[1].node;
   textNode.ondblclick = function(){
-    console.log("You DOUBLE CLICKED on the player TEXT");
+    /*console.log("You DOUBLE CLICKED on the player TEXT");*/
     raphObj[0].attr({fill: 'orange'});
     that.set({hasBall: true});
   };
@@ -67,8 +67,8 @@ function enablePassingAndShooting(raphObj){
     id: 0
   };
 
-  console.log('works');
+  /*console.log('works');*/
 
   window.circ = generateRaphaelObject(paper, defaultObj);
-  circ.vectorCrumbs({'stroke-width':3, stroke:"green", crumbs:true});
+  circ.vectorCrumbs();
 }());

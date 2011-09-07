@@ -47,8 +47,9 @@ If can also pass in a param object with the following attributes:
 mySet.vectorcrumbs({
   stroke: '#F00',  // Defaults to '#F00', but you can use any color you want
   "stoke-linecap": 'butt',  // You can use “butt”, “square”, or “round”
-  "stroke-width": 2, // Any interger wll do.  Defaults to 2
-  "crumbs": true // You can disable the crumbs if you only want to drag an object.  Defaults to true
+  "stroke-width": 3, // Any interger wll do.  Defaults to 3
+  "leave_crumbs": true, // You can disable the crumbs if you only want to drag an object.  Defaults to true
+  "debug_mode": false // You can see some extra debug data if you set this to 'true'
 });
 ```
 
