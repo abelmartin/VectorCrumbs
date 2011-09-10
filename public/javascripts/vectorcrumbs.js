@@ -1,3 +1,10 @@
+/** 
+ * VectorCrumbs plugin 0.9.0
+ * Copyright (c) 2011 Abel Martin
+ *
+ * licensed under the MIT license 
+**/
+
 (function(){
   var debug_mode = false;
 
