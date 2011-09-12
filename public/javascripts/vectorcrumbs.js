@@ -51,8 +51,10 @@
     //This process was greatly helped by these StackOverflow posts:
     //http://stackoverflow.com/questions/4224359/making-paths-and-images-dragable-in-raphael-js
     //http://stackoverflow.com/questions/3675519/raphaeljs-drag-n-drop
-    var that, startmovement, moving, 
-        stopmovement, dragArray, vcrumbs, 
+    var that, 
+        dragArray, vcrumbs, addToDragArray,
+        startMovement, duringMovement, stopMovement, 
+        helperStart, helper_move, 
         raphObj, paper, vc_attrs, leave_crumbs;
 
     //Initialize some of the vars
@@ -61,6 +63,7 @@
     vc_attrs = {stroke:"#F00", "stroke-linecap": "butt", "stroke-width": 3};
     paper = (raphObj.type === "set") ? raphObj[0].paper : raphObj.paper;
 
+    //The passed in overrides, in any
     if(passedOptions){
       vc_attrs.stroke = passedOptions.stroke || vc_attrs.stroke;
       vc_attrs["stroke-linecap"] = passedOptions["stroke-linecap"] || vc_attrs["stroke-linecap"];
@@ -75,7 +78,34 @@
 
     if(debug_mode){logEvent("DEBUGGING ENABLED");}
 
-    startmovent = function(){
+    helperStart = function(adjObj, coreObj){
+      adjObj.ox = ( coreObj.type === "circle" ) ? coreObj.attr('cx') : coreObj.attr('x');
+      adjObj.oy = ( coreObj.type === "circle" ) ? coreObj.attr('cy') : coreObj.attr('y');
+    };
+
+    addToDragArray = function(dragObj, initialize){
+      var mod;
+      //AEM we'll use this to center the drag line in the middle of rectangles
+      if(dragObj.type === "rect"){
+        mod = {x:(dragObj.attrs.width/2),y:(dragObj.attrs.height/2)};
+      }
+      else{
+        mod = {x:0,y:0};
+      }
+
+
+      if( initialize ){
+        dragArray = [{x:dragObj.ox + mod.x, y:dragObj.oy + mod.y}];
+      }
+      else if(dragObj.type === "circle"){
+        dragArray.push({x:dragObj.attr('cx'), y:dragObj.attr('cy')});
+      }
+      else{
+        dragArray.push({x:dragObj.attr('x') + mod.x, y:dragObj.attr('y') + mod.y});
+      }
+    };
+
+    startMovement = function(){
       var inner_that = this;
       benchEvent("drag_event_span", '+');
       /*var fill_color = (defObj.hasBall) ? defObj.colorWithBallCircleAlt : defObj.colorWithoutBallCircleAlt;*/
@@ -87,10 +117,14 @@
 
       logEvent(raphObj);
 
-      raphObj.items.forEach(function(itm,idx,arr){
-        itm.ox = ( inner_that.type === "circle" ) ? inner_that.attr('cx') : inner_that.attr('x');
-        itm.oy = ( inner_that.type === "circle" ) ? inner_that.attr('cy') : inner_that.attr('y');
-      });
+      if(raphObj.type === "set"){
+        raphObj.items.forEach(function(itm,idx,arr){
+          helperStart(itm, inner_that);
+        });
+      }
+      else{
+        helperStart(this, this);
+      }
 
       switch(this.type){
         case "circle":
@@ -101,44 +135,47 @@
         break;
       }
       
-      dragArray = [{x:this.ox, y:this.oy}];
+      addToDragArray(this, true);
       vcrumbs = paper.set(); 
       logEvent(dragArray.length);
       return null;
     };
 
-    moving = function(dx, dy){
+    helper_move = function(adjObj, coreObj, dx, dy){
+      switch(adjObj.type){
+        case "circle":
+          adjObj.attr({
+            cx: coreObj.ox + dx,
+            cy: coreObj.oy + dy
+          });
+        break;
+        default:
+          adjObj.attr({
+            x: coreObj.ox + dx,
+            y: coreObj.oy + dy
+          });
+        break;
+      }
+    };
+
+    duringMovement = function(dx, dy){
       //Here we grab the delta between our drag actions
       var svgpath, inner_that;
       inner_that = this;
       logEvent("WE'RE IN THE MOVE FUNCTION NOW");
       
-      raphObj.items.forEach(function(itm,idx,arr){
-        switch(itm.type){
-          case "circle":
-            itm.attr({
-              cx: inner_that.ox + dx,
-              cy: inner_that.oy + dy
-            });
-          break;
-          case "text":
-            itm.attr({
-              x: inner_that.ox + dx,
-              y: inner_that.oy + dy
-            });
-          break;
-        }
-      });
-
-      logEvent("DX: " + dx);
-      logEvent("DY: " + dy);
-
-      if(this.type === "circle"){
-        dragArray.push({x:this.attr('cx'), y:this.attr('cy')});
+      if(raphObj.type === "set"){
+        raphObj.items.forEach(function(itm,idx,arr){
+          helper_move(itm, inner_that, dx, dy);
+        });
       }
       else{
-        dragArray.push({x:this.attr('x'), y:this.attr('y')});
+        helper_move(this, this, dx, dy);
       }
+
+      addToDragArray(this);
+      logEvent("DX: " + dx);
+      logEvent("DY: " + dy);
 
       if(leave_crumbs){
         svgpath = "M".concat(
@@ -158,7 +195,7 @@
       return null;
     };
 
-    stopmovement = function(){
+    stopMovement = function(){
       //Return the colors to their rightful states
       var inner_that = this;
       /*var fill_color = (defObj.hasBall) ? defObj.colorWithBallCircle : defObj.colorWithoutBallCircle;*/
@@ -177,7 +214,7 @@
 
     //Finall, we apply the functions that we just defined 
     //as params in the drag function
-    raphObj.drag(moving, startmovent, stopmovement);
+    raphObj.drag(duringMovement, startMovement, stopMovement);
     return this;
   };
 

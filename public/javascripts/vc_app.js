@@ -9,7 +9,7 @@ function generateRaphaelObject(paper, defObj){
     ).attr({
       fill: defObj.colorWithoutBallCircle,
       stroke: defObj.colorWithoutBallStroke,
-      "stroke-width": 2
+      "stroke-width": 3
     }),
     paper.text(
       defObj.locX, 
@@ -53,8 +53,8 @@ function enablePassingAndShooting(raphObj){
     hasBall: false,
     locY: 100,
     locX: 100, 
-    colorWithoutBallCircle: "#44F", //Blue-ish
-    colorWithoutBallCircleAlt: "#8AF", //Blue-ish
+    colorWithoutBallCircle: "#44F", //Red-ish
+    colorWithoutBallCircleAlt: "#48F", //Blue-ish
     colorWithBallCircle: "#FF7B0D", //Orange
     colorWithBallCircleAlt: "#FFA84C", //Orange
     colorText: "#000",
@@ -70,5 +70,7 @@ function enablePassingAndShooting(raphObj){
   /*console.log('works');*/
 
   window.circ = generateRaphaelObject(paper, defaultObj);
-  circ.vectorCrumbs();
+  window.rect = paper.rect(80, 150, 50, 50).attr({fill: "orange", stroke: "black", "stroke-width": 3});
+  circ.vectorCrumbs({stroke: "#44F"});
+  rect.vectorCrumbs({stroke: "orange", "stroke-width": 4});
 }());
