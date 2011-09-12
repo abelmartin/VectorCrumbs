@@ -65,8 +65,6 @@ mySet.vectorcrumbs().dblclick(function(event){
 ## Current Hacks & Admissions  
 At the moment, I'm wrapping my plugin around the standard Raphael.drag() method.  In the future, I'll need to roll my own drag method, but for now, this works :)
 
-Though vectorcrumbs are bound to both Sets and Elements,  VC only works with sets at the moment.
-
 This has NOT been tested across multiple browsers yet
 
 I believe (though I haven't tested this yet) if you have multiple items in a set, this will center them all as you drag the items
