@@ -1,61 +1,23 @@
 /** 
- * VectorCrumbs plugin 0.9.0
+ * VectorCrumbs plugin 0.9.1
  * Copyright (c) 2011 Abel Martin
  *
  * licensed under the MIT license 
 **/
 
 (function(){
-  var debug_mode = false;
 
-  function logEvent(ev){
-    if( !debug_mode || typeof console === 'undefined'){ return;}
-
-    switch(typeof ev){
-      case "string":
-        console.log( (new Date()).toTimeString() + ": " + ev);
-      break;
-      default:
-        console.log(ev);
-      break;
-    }
-  };
-
-  function benchEvent(ev, opp){
-    if( !debug_mode || typeof console.time === 'undefined' ){ return; }
-    //This will give us a rough estimate of how long things take
-    //IE8 & IE7 have console, but they don't have console.time functions
-
-    //The 'opp' let's us know which time action to take
-    switch(opp){
-      case '+':
-        logEvent("Benchmark Started");
-        console.time(ev);
-      break;
-      case '-':
-        console.timeEnd(ev);
-        logEvent("Benchmark Ended");
-      break;
-      default:
-        var msg = "The event you tried to log '";
-        msg += ev;
-        msg += "' with opperation '";
-        msg += opp + "' failed";
-        logEvent(msg);
-      break;
-    }
-  };
-
-
-  function vectorCrumbs(passedRaphObj, passedOptions) {
+  function VectorCrumbs(passedRaphObj, passedOptions) {
     //This process was greatly helped by these StackOverflow posts:
     //http://stackoverflow.com/questions/4224359/making-paths-and-images-dragable-in-raphael-js
     //http://stackoverflow.com/questions/3675519/raphaeljs-drag-n-drop
-    var that, 
+    var that, logEvent, benchEvent, debug_mode,
         dragArray, vcrumbs, addToDragArray,
         startMovement, duringMovement, stopMovement, 
         helperStart, helper_move, 
         raphObj, paper, vc_attrs, leave_crumbs;
+
+    debug_mode = false;
 
     //Initialize some of the vars
     leave_crumbs = true;
@@ -75,6 +37,44 @@
       //This will either be a boolean OR undefined which will be false anyway.
       debug_mode = passedOptions.debug_mode; 
     }
+
+    logEvent = function(ev){
+      if( !debug_mode || typeof console === 'undefined'){ return;}
+
+      switch(typeof ev){
+        case "string":
+          console.log( (new Date()).toTimeString() + ": " + ev);
+        break;
+        default:
+          console.log(ev);
+        break;
+      }
+    };
+
+    benchEvent = function(ev, opp){
+      if( !debug_mode || typeof console.time === 'undefined' ){ return; }
+      //This will give us a rough estimate of how long things take
+      //IE8 & IE7 have console, but they don't have console.time functions
+
+      //The 'opp' let's us know which time action to take
+      switch(opp){
+        case '+':
+          logEvent("Benchmark Started");
+          console.time(ev);
+        break;
+        case '-':
+          console.timeEnd(ev);
+          logEvent("Benchmark Ended");
+        break;
+        default:
+          var msg = "The event you tried to log '";
+          msg += ev;
+          msg += "' with opperation '";
+          msg += opp + "' failed";
+          logEvent(msg);
+        break;
+      }
+    };
 
     if(debug_mode){logEvent("DEBUGGING ENABLED");}
 
@@ -220,10 +220,10 @@
 
   // We need to ensure sets AND elements have access to VC
   Raphael.el.vectorCrumbs = function(options){
-    return vectorCrumbs(this, options);
+    return new VectorCrumbs(this, options);
   };
 
   Raphael.st.vectorCrumbs = function(options){
-    return vectorCrumbs(this, options);
+    return new VectorCrumbs(this, options);
   };
 }());

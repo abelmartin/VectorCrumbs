@@ -72,6 +72,7 @@ I believe (though I haven't tested this yet) if you have multiple items in a set
 ## Here's a tentative roadmap ##
 * post drag smoothing
     * at the moment, the dragged lines are a bit jagged
+* firing events during the stages of movement
 * bind the 'crumbs' to the dragged object to give additional functionality on the crumbs such as...
     * hiding the crumbs
     * adjusting crumb color & width after the crumbs have been drawn
